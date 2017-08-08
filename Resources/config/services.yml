@@ -1,0 +1,4 @@
+services:
+#    gigabit_affilinet.example:
+#        class: Gigabit\AffilinetBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
