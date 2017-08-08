@@ -43,7 +43,7 @@ class ProductClientService {
     }
 
     public function __toString() {
-        return 'ClientService';
+        return 'ProductClientService';
     }
 
 }

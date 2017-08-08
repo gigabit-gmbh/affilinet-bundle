@@ -19,7 +19,24 @@ use Gigabit\AffilinetBundle\Model\ProductImageType;
 class ProductService {
 
     protected $clientService;
+
+    /** @var  ProductsRequest */
     protected $productRequest;
+
+    /** @var  int|array<int> */
+    protected $productImageSettings = ProductImageType::TYPE_ORIGINAL;
+
+    /** @var bool  */
+    protected $onlyWithImages = true;
+
+    /** @var null|string */
+    protected $sort = null;
+
+    /** @var bool  */
+    protected $sortDescending = true;
+
+    /** @var null|array<int> */
+    protected $excludedShopIds = null;
 
     /**
      * ShopService constructor.
@@ -30,58 +47,54 @@ class ProductService {
      */
     public function __construct(ProductClientService $clientService) {
         $this->clientService = $clientService;
-        $this->productRequest = new ProductsRequest($clientService->getClient());
+    }
+
+    protected function initiateRequest() {
+        $this->productRequest = new ProductsRequest($this->clientService->getClient());
     }
 
     /**
      * @param $keyword string Keyword to search for - if null no keyword is set and all available products will be list
-     * @param $onlyWithImages boolean if true, results include only products with images
-     * @param $productImage int|array<int> The Product image(s) to load
-     * @param $excludedShopIds array<int>|null This ShopIds will be excluded
-     * @param $maxPrice float|int|string|null The maximum price of the listed products
-     * @param $minPrice float|int|string|null The minimum price of the listed products
-     * @param $sort string|null The sort parameter
-     * @param $sortDescending boolean The direction to sort - true for descending, false for ascending
+     * @param $minPrice float|int|string The minimum price of the listed products
+     * @param $maxPrice float|int|string The maximum price of the listed products
      *
      * @return ProductsResponse
      * @throws AffilinetProductWebserviceException
      */
-    public function searchProducts($keyword, $onlyWithImages = true, $productImage = ProductImageType::TYPE_ORIGINAL, $maxPrice = null, $minPrice = null, $excludedShopIds = null, $sort = null, $sortDescending = true) {
+    public function searchProductsForMinMaxPrice($keyword, $minPrice, $maxPrice) {
 
-        return $this->searchPaginatedProducts($keyword, null, null, $onlyWithImages, $productImage, $maxPrice, $minPrice, $excludedShopIds, $sort, $sortDescending);
+        return $this->searchProducts($keyword, 1, 30, $minPrice, $maxPrice);
     }
 
     /**
      * @param $keyword string Keyword to search for - if null no keyword is set and all available products will be list
      * @param $page int|null If you want a paginated result, define the current page number here
      * @param $pageSize int The amount of results per page, default = 20
-     * @param $onlyWithImages boolean if true, results include only products with images
-     * @param $productImage int|array<int> The Product image(s) to load
-     * @param $excludedShopIds array<int>|null This ShopIds will be excluded
-     * @param $maxPrice float|int|string|null The maximum price of the listed products
      * @param $minPrice float|int|string|null The minimum price of the listed products
-     * @param $sort string|null The sort parameter
-     * @param $sortDescending boolean The direction to sort - true for descending, false for ascending
+     * @param $maxPrice float|int|string|null The maximum price of the listed products
      *
      * @return ProductsResponse
      * @throws AffilinetProductWebserviceException
      */
-    public function searchPaginatedProducts($keyword, $page = null, $pageSize = 20, $onlyWithImages = true, $productImage = ProductImageType::TYPE_ORIGINAL, $maxPrice = null, $minPrice = null, $excludedShopIds = null, $sort = null, $sortDescending = true) {
+    public function searchProducts($keyword, $page = 1, $pageSize = 30, $minPrice = null, $maxPrice = null) {
+
+        $this->initiateRequest();
 
         $this->productRequest->addRawQuery($keyword);
-        $this->productRequest->onlyWithImage($onlyWithImages);
+        $this->productRequest->onlyWithImage($this->getOnlyWithImages());
 
-        if (is_int($productImage)) {
-            $this->productRequest->addAllProductImages();
+        if (is_int($this->getProductImageSettings())) {
+            $this->includeProductImage($this->getProductImageSettings());
         } else {
-            if (is_array($productImage)) {
-                foreach ($productImage as $image) {
+            if (is_array($this->getProductImageSettings())) {
+                foreach ($this->getProductImageSettings() as $image) {
                     $this->includeProductImage($image);
                 }
             }
         }
-        if (is_array($excludedShopIds)) {
-            $this->productRequest->excludeShopIds($excludedShopIds);
+
+        if (is_array($this->excludedShopIds)) {
+            $this->productRequest->excludeShopIds($this->excludedShopIds);
         }
 
         if ($maxPrice) {
@@ -92,13 +105,11 @@ class ProductService {
             $this->productRequest->minPrice($minPrice);
         }
 
-        if ($page && $pageSize) {
-            $this->productRequest->page($page);
-            $this->productRequest->pageSize($pageSize);
-        }
+        $this->productRequest->page($page);
+        $this->productRequest->pageSize($pageSize);
 
-        if ($sort) {
-            $this->productRequest->sort($sort, $sortDescending);
+        if ($this->sort) {
+            $this->productRequest->sort($this->sort, $this->sortDescending);
         }
 
 
@@ -110,6 +121,8 @@ class ProductService {
      * @return ResponseInterface
      */
     public function queryProducts($query) {
+        $this->initiateRequest();
+
         return $this->productRequest->query($query)->send();
     }
 
@@ -120,6 +133,8 @@ class ProductService {
      * @throws AffilinetProductWebserviceException
      */
     public function getProducts($productIds) {
+        $this->initiateRequest();
+
         $this->productRequest->find($productIds);
 
         return $this->productRequest->send();
@@ -132,8 +147,120 @@ class ProductService {
      * @throws AffilinetProductWebserviceException
      */
     public function getProduct($productId) {
+        $this->initiateRequest();
 
         return $this->productRequest->findOne($productId);
+    }
+
+    /**
+     * @return array|int
+     */
+    public function getProductImageSettings() {
+        return $this->productImageSettings;
+    }
+
+    /**
+     * @param array|int $productImageSettings
+     *
+     * @return ProductService
+     */
+    public function setProductImageSettings($productImageSettings) {
+        $this->productImageSettings = $productImageSettings;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOnlyWithImages() {
+        return $this->onlyWithImages;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getOnlyWithImages() {
+        return $this->onlyWithImages;
+    }
+
+    /**
+     * @param bool $onlyWithImages
+     *
+     * @return ProductService
+     */
+    public function setOnlyWithImages($onlyWithImages) {
+        $this->onlyWithImages = $onlyWithImages;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSort() {
+        return $this->sort;
+    }
+
+    /**
+     * @param null|string $sort
+     *
+     * @return ProductService
+     */
+    public function setSort($sort) {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSortDescending() {
+        return $this->sortDescending;
+    }
+
+    /**
+     * @param bool $sortDescending
+     *
+     * @return ProductService
+     */
+    public function setSortDescending($sortDescending) {
+        $this->sortDescending = $sortDescending;
+
+        return $this;
+    }
+
+    /**
+     * @return array<int>|null
+     */
+    public function getExcludedShopIds() {
+        return $this->excludedShopIds;
+    }
+
+    /**
+     * @param array<int>|null $excludedShopIds
+     *
+     * @return ProductService
+     */
+    public function setExcludedShopIds($excludedShopIds) {
+        $this->excludedShopIds = $excludedShopIds;
+
+        return $this;
+    }
+
+    /**
+     * @param int $excludedShopId
+     *
+     * @return ProductService
+     */
+    public function addExcludedShopId($excludedShopId) {
+        if($this->excludedShopIds == null){
+            $this->excludedShopIds = array();
+        }
+        $this->excludedShopIds[] = $excludedShopId;
+
+        return $this;
     }
 
     /**

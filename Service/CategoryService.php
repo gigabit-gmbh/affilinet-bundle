@@ -13,6 +13,8 @@ use Affilinet\ProductData\Responses\CategoriesResponseInterface;
 class CategoryService {
 
     protected $clientService;
+
+    /** @var  CategoriesRequest */
     protected $shopCategoriesRequest;
 
     /**
@@ -24,13 +26,17 @@ class CategoryService {
      */
     public function __construct(ProductClientService $clientService) {
         $this->clientService = $clientService;
-        $this->shopCategoriesRequest = new CategoriesRequest($clientService->getClient());
+    }
+
+    protected function initiateRequest() {
+        $this->shopCategoriesRequest = new CategoriesRequest($this->clientService->getClient());
     }
 
     /**
      * @return CategoriesResponseInterface
      */
     public function getCategories() {
+        $this->initiateRequest();
 
         $this->shopCategoriesRequest->getAffilinetCategories();
 
@@ -43,6 +49,8 @@ class CategoryService {
      * @return CategoriesResponseInterface
      */
     public function getShopCategories($shopId) {
+
+        $this->initiateRequest();
 
         $this->shopCategoriesRequest->setShopId($shopId);
 
