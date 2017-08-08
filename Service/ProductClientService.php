@@ -1,6 +1,6 @@
 <?php
 
-namespace Gigabit\Affilinetbundle\Service;
+namespace Gigabit\AffilinetBundle\Service;
 
 use Affilinet\ProductData\AffilinetProductClient;
 use Symfony\Component\DependencyInjection\ContainerInterface;
