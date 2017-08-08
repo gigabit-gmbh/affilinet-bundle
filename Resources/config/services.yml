@@ -1,4 +1,14 @@
 services:
-#    gigabit_affilinet.example:
-#        class: Gigabit\AffilinetBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    product_client:
+        class: Gigabit\Affilinetbundle\Service\ProductClientService
+        arguments: ['@service_container', '', '']
+
+    shop:
+        class: Gigabit\Affilinetbundle\Service\ShopService
+        arguments: ['@product_client']
+    category:
+        class: Gigabit\Affilinetbundle\Service\CategoryService
+        arguments: ['@product_client']
+    product:
+        class: Gigabit\Affilinetbundle\Service\ProductService
+        arguments: ['@product_client']

@@ -1,3 +1,0 @@
-gigabit_affilinet_homepage:
-    path:     /
-    defaults: { _controller: GigabitAffilinetBundle:Default:index }
