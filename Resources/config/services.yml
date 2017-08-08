@@ -1,14 +1,14 @@
 services:
     product_client:
-        class: Gigabit\Affilinetbundle\Service\ProductClientService
+        class: Gigabit\AffilinetBundle\Service\ProductClientService
         arguments: ['@service_container', '', '']
 
     shop:
-        class: Gigabit\Affilinetbundle\Service\ShopService
+        class: Gigabit\AffilinetBundle\Service\ShopService
         arguments: ['@product_client']
     category:
-        class: Gigabit\Affilinetbundle\Service\CategoryService
+        class: Gigabit\AffilinetBundle\Service\CategoryService
         arguments: ['@product_client']
     product:
-        class: Gigabit\Affilinetbundle\Service\ProductService
+        class: Gigabit\AffilinetBundle\Service\ProductService
         arguments: ['@product_client']
