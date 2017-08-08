@@ -1,28 +1,28 @@
 {
-    "name" : "gigabit/affilinet-bundle",
-    "description" : "A symfony bundle to integrate the affilinet PHP SDK",
-    "type" : "symfony-bundle",
-    "authors" : [{
-        "name" : "Thomas Helmrich",
-        "email" : "thomas@gigabit.de"
-    }],
-    "keywords" : [
-        "affilinet",
-	"bundle",
-	"symfony"
-    ],
-    "license" : [
-        "MIT"
-    ],
-    "require" : {
-	"gigabit/affilinet-php-sdk": "dev-master"
-    },
-    "autoload" : {
-        "psr-0" : {
-            "Gigabit\\AffilinetBundle" : ""
-        }
-    },
-    "target-dir" : "Gigabit/AffilinetBundle",
-    "repositories" : [{
-    }]
+  "name": "gigabit/affilinet-bundle",
+  "description": "A symfony bundle to integrate the affilinet PHP SDK",
+  "type": "symfony-bundle",
+  "authors": [
+    {
+      "name": "Thomas Helmrich",
+      "email": "thomas@gigabit.de"
+    }
+  ],
+  "keywords": [
+    "affilinet",
+    "bundle",
+    "symfony"
+  ],
+  "license": [
+    "MIT"
+  ],
+  "require": {
+    "gigabit/affilinet-php-sdk": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "Gigabit\\AffilinetBundle": ""
+    }
+  },
+  "target-dir": "Gigabit/AffilinetBundle"
 }
