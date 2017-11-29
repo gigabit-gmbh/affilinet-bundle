@@ -47,7 +47,7 @@ class ProductCommand extends ContainerAwareCommand {
 
         /** @var Product $product */
         foreach ($products->products() as $product) {
-            $output->writeln($product->getProductName());
+            $output->writeln($product->getProductName() . " - " . $product->getBrand(). " - " . $product->getDeeplink()." - " . $product->getArticleNumber() . " - " . $product->getEAN());
         }
     }
 

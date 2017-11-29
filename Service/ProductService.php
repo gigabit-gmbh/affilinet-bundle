@@ -57,13 +57,14 @@ class ProductService {
      * @param $keyword string Keyword to search for - if null no keyword is set and all available products will be list
      * @param $minPrice float|int|string The minimum price of the listed products
      * @param $maxPrice float|int|string The maximum price of the listed products
+     * @param int $pageSize The amount of results per page, default = 30
      *
      * @return ProductsResponse
      * @throws AffilinetProductWebserviceException
      */
-    public function searchProductsForMinMaxPrice($keyword, $minPrice, $maxPrice) {
+    public function searchProductsForMinMaxPrice($keyword, $minPrice, $maxPrice, $pageSize = 30) {
 
-        return $this->searchProducts($keyword, 1, 30, $minPrice, $maxPrice);
+        return $this->searchProducts($keyword, 1, $pageSize, $minPrice, $maxPrice);
     }
 
     /**
@@ -144,7 +145,6 @@ class ProductService {
      * @param $productId int The id of the Product
      *
      * @return Product
-     * @throws AffilinetProductWebserviceException
      */
     public function getProduct($productId) {
         $this->initiateRequest();
