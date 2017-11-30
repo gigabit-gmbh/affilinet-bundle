@@ -16,6 +16,8 @@ use Affilinet\ProductData\Responses\ShopsResponseInterface;
 class ShopService {
 
     protected $clientService;
+
+    /** @var ShopsRequest $shopsRequest */
     protected $shopsRequest;
     protected $shopPropertiesRequest;
 

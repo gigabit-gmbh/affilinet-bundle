@@ -3,6 +3,7 @@
 namespace Gigabit\AffilinetBundle\Service;
 
 use Affilinet\PublisherData\Requests\CreativeRequest;
+use Affilinet\PublisherData\Responses\CreativeCategoryResponse;
 use Affilinet\PublisherData\Responses\CreativesResponse;
 
 /**
@@ -49,6 +50,17 @@ class CreativeService {
         $this->request->setProgramIds($programIds);
 
         return $this->request->searchCreatives();
+    }
+
+    /**
+     * @param int $programId
+     *
+     * @return CreativeCategoryResponse
+     */
+    public function getCategories($programId) {
+        $this->initiateRequest();
+
+        return $this->request->getCreativeCategories($programId);
     }
 
 
