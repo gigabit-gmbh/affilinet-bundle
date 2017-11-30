@@ -52,6 +52,28 @@ class CreativeService {
         return $this->request->searchCreatives();
     }
 
+
+    /**
+     * @param array $categories
+     * @param array $programIds
+     * @param array $types
+     * @param int $page
+     * @param int $pageSize
+     *
+     * @return CreativesResponse
+     */
+    public function searchCreativesForProgramAndCreativeCategories($categories, $programIds, $types = array(CreativeRequest::TYPE_Text), $page = 1, $pageSize = 99) {
+        $this->initiateRequest();
+
+        $this->request->setCreativeTypes($types);
+        $this->request->setPage($page);
+        $this->request->setPageSize($pageSize);
+        $this->request->setProgramIds($programIds);
+        $this->request->setCategoryIds($categories);
+
+        return $this->request->searchCreatives();
+    }
+
     /**
      * @param int $programId
      *
