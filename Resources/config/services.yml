@@ -18,3 +18,6 @@ services:
     program:
       class: Gigabit\AffilinetBundle\Service\ProgramService
       arguments: ['@publisher_client']
+    creative:
+      class: Gigabit\AffilinetBundle\Service\CreativeService
+      arguments: ['@publisher_client']

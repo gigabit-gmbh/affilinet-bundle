@@ -33,8 +33,15 @@ class ProgramService {
     /**
      * @return \Affilinet\PublisherData\Responses\ProgramsResponse
      */
-    public function getPrograms() {
+    public function getPrograms($page = 1, $pageSize = 100, $partnerShipStatus = array('Active')) {
         $this->initiateRequest();
+
+        $this->programsRequest->setProgramsQuery(array(
+            'PartnershipStatus' => $partnerShipStatus,
+        ));
+
+        $this->programsRequest->setPageSize($pageSize);
+        $this->programsRequest->setPage($page);
 
         return $this->programsRequest->getPrograms();
     }
