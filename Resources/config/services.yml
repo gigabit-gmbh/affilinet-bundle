@@ -8,16 +8,16 @@ services:
 
     affilinet.shop:
         class: Gigabit\AffilinetBundle\Service\ShopService
-        arguments: ['@product_client']
+        arguments: ['@affilinet.product_client']
     affilinet.category:
         class: Gigabit\AffilinetBundle\Service\CategoryService
-        arguments: ['@product_client']
+        arguments: ['@affilinet.product_client']
     affilinet.product:
         class: Gigabit\AffilinetBundle\Service\ProductService
-        arguments: ['@product_client']
+        arguments: ['@affilinet.product_client']
     affilinet.program:
       class: Gigabit\AffilinetBundle\Service\ProgramService
-      arguments: ['@publisher_client']
+      arguments: ['@affilinet.publisher_client']
     affilinet.creative:
       class: Gigabit\AffilinetBundle\Service\CreativeService
-      arguments: ['@publisher_client']
+      arguments: ['@affilinet.publisher_client']
