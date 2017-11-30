@@ -25,11 +25,11 @@ class GigabitAffilinetExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $def = $container->getDefinition('product_client');
+        $def = $container->getDefinition('affilinet.product_client');
         $def->replaceArgument(1, $config['publisher']['id']);
         $def->replaceArgument(2, $config['publisher']['product_password']);
 
-        $def = $container->getDefinition('publisher_client');
+        $def = $container->getDefinition('affilinet.publisher_client');
         $def->replaceArgument(1, $config['publisher']['id']);
         $def->replaceArgument(2, $config['publisher']['publisher_password']);
     }
