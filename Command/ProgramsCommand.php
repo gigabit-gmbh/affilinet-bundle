@@ -29,11 +29,11 @@ class ProgramsCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         /** @var ProgramsResponse $programs */
-        $programs = $this->getContainer()->get('program')->getPrograms();
+        $programs = $this->getContainer()->get('affilinet.program')->getPrograms();
 
         /** @var Program $program */
         foreach ($programs->getPrograms() as $program) {
-            $output->writeln($program->getTitle()." - ".$program->getProgramUrl()." - ".$program->getTrackingMethod()." - ".$program->get);
+            $output->writeln($program->getTitle()." - ".$program->getTrackingMethod()." - ".$program->getClassifciation());
 
         }
     }

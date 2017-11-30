@@ -38,7 +38,7 @@ class ProductCommand extends ContainerAwareCommand {
         $maxPrice = $input->getArgument("maxPrice");
 
         /** @var ProductsResponseInterface $products */
-        $products = $this->getContainer()->get('product')->searchProductsForMinMaxPrice($keyword, $minPrice, $maxPrice);
+        $products = $this->getContainer()->get('affilinet.product')->searchProductsForMinMaxPrice($keyword, $minPrice, $maxPrice);
 
         // outputs multiple lines to the console (adding "\n" at the end of each line)
         $output->writeln([

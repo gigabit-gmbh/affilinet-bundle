@@ -1,23 +1,23 @@
 services:
-    product_client:
+    affilinet.product_client:
         class: Gigabit\AffilinetBundle\Service\ProductClientService
         arguments: ['@service_container', '', '']
-    publisher_client:
+    affilinet.publisher_client:
         class: Gigabit\AffilinetBundle\Service\PublisherClientService
         arguments: ['@service_container', '', '']
 
-    shop:
+    affilinet.shop:
         class: Gigabit\AffilinetBundle\Service\ShopService
         arguments: ['@product_client']
-    category:
+    affilinet.category:
         class: Gigabit\AffilinetBundle\Service\CategoryService
         arguments: ['@product_client']
-    product:
+    affilinet.product:
         class: Gigabit\AffilinetBundle\Service\ProductService
         arguments: ['@product_client']
-    program:
+    affilinet.program:
       class: Gigabit\AffilinetBundle\Service\ProgramService
       arguments: ['@publisher_client']
-    creative:
+    affilinet.creative:
       class: Gigabit\AffilinetBundle\Service\CreativeService
       arguments: ['@publisher_client']

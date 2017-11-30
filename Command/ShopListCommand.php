@@ -29,7 +29,7 @@ class ShopListCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         /** @var ShopsResponseInterface $shops */
-        $shops = $this->getContainer()->get('shop')->getShops();
+        $shops = $this->getContainer()->get('affilinet.shop')->getShops(1, 99);
 
         // outputs multiple lines to the console (adding "\n" at the end of each line)
         $output->writeln([
@@ -38,7 +38,7 @@ class ShopListCommand extends ContainerAwareCommand {
 
         /** @var Shop $shop */
         foreach ($shops->getShops() as $shop) {
-            $output->writeln($shop->getName() . " - " . $shop->getUrl());
+            $output->writeln($shop->getName() . " - " . $shop->getUrl() . " - " . $shop->getProgramId());
         }
     }
 

@@ -4,6 +4,7 @@ namespace Gigabit\AffilinetBundle\Command;
 
 use Affilinet\ProductData\Responses\ResponseElements\Shop;
 use Affilinet\ProductData\Responses\ShopsResponseInterface;
+use Affilinet\PublisherData\Requests\CreativeRequest;
 use Affilinet\PublisherData\Responses\CreativesResponse;
 use Affilinet\PublisherData\Responses\ProgramsResponse;
 use Affilinet\PublisherData\Responses\ResponseElements\Creative;
@@ -34,32 +35,39 @@ class CreativeCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         $activePrograms = array();
+        $activeProgramIds = array();
 
         /** @var ProgramsResponse $programs */
-        $programs = $this->getContainer()->get('program')->getPrograms();
+        $programs = $this->getContainer()->get('affilinet.product')->getPrograms();
         /** @var Program $program */
         foreach ($programs->getPrograms() as $program) {
-            $activePrograms[] = $program->getId();
+            $activeProgramIds[] = $program->getId();
+            $activePrograms[$program->getId()] = $program;
         }
 
         /** @var CreativesResponse $creatives */
-        $creatives = $this->getContainer()->get('creative')->searchCreatives($activePrograms);
+        $creatives = $this->getContainer()->get('affilinet.creative')->searchCreatives(array(1412), array(CreativeRequest::TYPE_Text));
 
         // outputs multiple lines to the console (adding "\n" at the end of each line)
         $output->writeln([
             'There were '.$creatives->getTotalResults().' Creatives found.',
         ]);
-
+        $output->writeln("_------------------------------------------");
         /** @var Creative $creative */
         foreach ($creatives->getCreatives() as $creative) {
+            /** @var Program $program */
+            $program = $activePrograms[$creative->getProgramId()];
+            $output->writeln($program->getTitle());
             $output->writeln($creative->getTitle());
+
+            $output->writeln($creative->getCategoryIds());
+            $output->writeln($creative->getCreativeNumber());
+            $output->writeln($creative->getIntegrationCode());
+
             $crawler = new Crawler($creative->getIntegrationCode());
             $firstATag = $crawler->filter('body > a')->first();
-            $firstImgTag = $crawler->filter('body > img')->first();
             $shopLink = $firstATag->attr("href");
-            $shopPixel = $firstImgTag->attr("src");
             $output->writeln($shopLink);
-            $output->writeln($shopPixel);
             $output->writeln("_------------------------------------------");
         }
     }
