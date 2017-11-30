@@ -1,0 +1,49 @@
+<?php
+
+namespace Gigabit\AffilinetBundle\Service;
+
+use Affilinet\PublisherData\Requests\ProgramsRequest;
+
+/**
+ * Class ProgramsService
+ *
+ * @author Thomas Helmrich <thomas@gigabit.de>
+ */
+class ProgramService {
+
+    protected $clientService;
+    protected $programsRequest;
+
+    /**
+     * ProgramsService constructor.
+     *
+     * Initialize the Client with the Publisher ID & Webservice Password
+     *
+     * @param PublisherClientService $clientService
+     */
+    public function __construct(PublisherClientService $clientService) {
+        $this->clientService = $clientService;
+        $this->programsRequest = new ProgramsRequest($clientService->getClient());
+    }
+
+    protected function initiateRequest() {
+        $this->programsRequest = new ProgramsRequest($this->clientService->getClient());
+    }
+
+    /**
+     * @return \Affilinet\PublisherData\Responses\ProgramsResponse
+     */
+    public function getPrograms() {
+        $this->initiateRequest();
+
+        return $this->programsRequest->getPrograms();
+    }
+
+
+    public function __toString() {
+        return 'ProgramsService';
+    }
+
+}
+
+?>

@@ -2,6 +2,7 @@
 
 namespace Gigabit\AffilinetBundle\Service;
 
+use Affilinet\Exceptions\AffilinetProductWebserviceException;
 use Affilinet\ProductData\Requests\ShopPropertiesRequest;
 use Affilinet\ProductData\Requests\ShopsRequest;
 use Affilinet\ProductData\Responses\ShopPropertiesResponseInterface;
@@ -46,6 +47,8 @@ class ShopService {
      * @param $logoSizes null|array<int> The sizes of the logo to include
      *
      * @return ShopsResponseInterface
+     *
+     * @throws AffilinetProductWebserviceException
      */
     public function getShops($page = 1, $pageSize = 20, $keyword = null, $logoSizes = array()) {
         $this->initiateRequest();
@@ -79,6 +82,8 @@ class ShopService {
      * @param $keyword null|string Keyword to search for - if null no keyword is set and all available shops will be count
      *
      * @return integer
+     *
+     * @throws AffilinetProductWebserviceException
      */
     public function getShopsCount($keyword = null) {
         return $this->getShops($keyword)->totalRecords();

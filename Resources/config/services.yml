@@ -2,6 +2,9 @@ services:
     product_client:
         class: Gigabit\AffilinetBundle\Service\ProductClientService
         arguments: ['@service_container', '', '']
+    publisher_client:
+        class: Gigabit\AffilinetBundle\Service\PublisherClientService
+        arguments: ['@service_container', '', '']
 
     shop:
         class: Gigabit\AffilinetBundle\Service\ShopService
@@ -12,3 +15,6 @@ services:
     product:
         class: Gigabit\AffilinetBundle\Service\ProductService
         arguments: ['@product_client']
+    program:
+      class: Gigabit\AffilinetBundle\Service\ProgramService
+      arguments: ['@publisher_client']

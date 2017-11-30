@@ -38,7 +38,7 @@ class ShopListCommand extends ContainerAwareCommand {
 
         /** @var Shop $shop */
         foreach ($shops->getShops() as $shop) {
-            $output->writeln($shop->getName());
+            $output->writeln($shop->getName() . " - " . $shop->getUrl());
         }
     }
 
