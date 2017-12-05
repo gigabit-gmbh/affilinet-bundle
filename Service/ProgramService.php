@@ -46,6 +46,15 @@ class ProgramService {
         return $this->programsRequest->getPrograms();
     }
 
+    /**
+     * @return \Affilinet\PublisherData\Responses\ProgramCategoriesResponse
+     */
+    public function getProgramCategories() {
+        $this->initiateRequest();
+
+        return $this->programsRequest->getProgramCategories();
+    }
+
 
     public function __toString() {
         return 'ProgramsService';
