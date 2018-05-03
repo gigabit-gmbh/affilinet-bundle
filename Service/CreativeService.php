@@ -11,7 +11,8 @@ use Affilinet\PublisherData\Responses\CreativesResponse;
  *
  * @author Thomas Helmrich <thomas@gigabit.de>
  */
-class CreativeService {
+class CreativeService
+{
 
     protected $clientService;
 
@@ -25,11 +26,13 @@ class CreativeService {
      *
      * @param PublisherClientService $clientService
      */
-    public function __construct(PublisherClientService $clientService) {
+    public function __construct(PublisherClientService $clientService)
+    {
         $this->clientService = $clientService;
     }
 
-    protected function initiateRequest() {
+    protected function initiateRequest()
+    {
         $this->request = new CreativeRequest($this->clientService->getClient());
     }
 
@@ -41,7 +44,12 @@ class CreativeService {
      *
      * @return CreativesResponse
      */
-    public function searchCreatives($programIds = array(0), $types = array(CreativeRequest::TYPE_Text), $page = 1, $pageSize = 99) {
+    public function searchCreatives(
+        $programIds = array(0),
+        $types = array(CreativeRequest::TYPE_Text),
+        $page = 1,
+        $pageSize = 99
+    ) {
         $this->initiateRequest();
 
         $this->request->setCreativeTypes($types);
@@ -62,7 +70,13 @@ class CreativeService {
      *
      * @return CreativesResponse
      */
-    public function searchCreativesForProgramAndCreativeCategories($categories, $programIds, $types = array(CreativeRequest::TYPE_Text), $page = 1, $pageSize = 99) {
+    public function searchCreativesForProgramAndCreativeCategories(
+        $categories,
+        $programIds,
+        $types = array(CreativeRequest::TYPE_Text),
+        $page = 1,
+        $pageSize = 99
+    ) {
         $this->initiateRequest();
 
         $this->request->setCreativeTypes($types);
@@ -79,17 +93,17 @@ class CreativeService {
      *
      * @return CreativeCategoryResponse
      */
-    public function getCategories($programId) {
+    public function getCategories($programId)
+    {
         $this->initiateRequest();
 
         return $this->request->getCreativeCategories($programId);
     }
 
 
-    public function __toString() {
+    public function __toString()
+    {
         return 'CreativeService';
     }
 
 }
-
-?>

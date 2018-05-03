@@ -16,7 +16,8 @@ use Gigabit\AffilinetBundle\Model\ProductImageType;
  *
  * @author Thomas Helmrich <thomas@gigabit.de>
  */
-class ProductService {
+class ProductService
+{
 
     protected $clientService;
 
@@ -26,13 +27,13 @@ class ProductService {
     /** @var  int|array<int> */
     protected $productImageSettings = ProductImageType::TYPE_ORIGINAL;
 
-    /** @var bool  */
+    /** @var bool */
     protected $onlyWithImages = true;
 
     /** @var null|string */
     protected $sort = null;
 
-    /** @var bool  */
+    /** @var bool */
     protected $sortDescending = true;
 
     /** @var null|array<int> */
@@ -45,11 +46,13 @@ class ProductService {
      *
      * @param ProductClientService $clientService
      */
-    public function __construct(ProductClientService $clientService) {
+    public function __construct(ProductClientService $clientService)
+    {
         $this->clientService = $clientService;
     }
 
-    protected function initiateRequest() {
+    protected function initiateRequest()
+    {
         $this->productRequest = new ProductsRequest($this->clientService->getClient());
     }
 
@@ -62,7 +65,8 @@ class ProductService {
      * @return ProductsResponse
      * @throws AffilinetProductWebserviceException
      */
-    public function searchProductsForMinMaxPrice($keyword, $minPrice, $maxPrice, $pageSize = 30) {
+    public function searchProductsForMinMaxPrice($keyword, $minPrice, $maxPrice, $pageSize = 30)
+    {
 
         return $this->searchProducts($keyword, 1, $pageSize, $minPrice, $maxPrice);
     }
@@ -77,7 +81,8 @@ class ProductService {
      * @return ProductsResponse
      * @throws AffilinetProductWebserviceException
      */
-    public function searchProducts($keyword, $page = 1, $pageSize = 30, $minPrice = null, $maxPrice = null) {
+    public function searchProducts($keyword, $page = 1, $pageSize = 30, $minPrice = null, $maxPrice = null)
+    {
 
         $this->initiateRequest();
 
@@ -121,7 +126,8 @@ class ProductService {
      * @param $query Query
      * @return ResponseInterface
      */
-    public function queryProducts($query) {
+    public function queryProducts($query)
+    {
         $this->initiateRequest();
 
         return $this->productRequest->query($query)->send();
@@ -133,7 +139,8 @@ class ProductService {
      * @return ProductsResponse
      * @throws AffilinetProductWebserviceException
      */
-    public function getProducts($productIds) {
+    public function getProducts($productIds)
+    {
         $this->initiateRequest();
 
         $this->productRequest->find($productIds);
@@ -146,7 +153,8 @@ class ProductService {
      *
      * @return Product
      */
-    public function getProduct($productId) {
+    public function getProduct($productId)
+    {
         $this->initiateRequest();
 
         return $this->productRequest->findOne($productId);
@@ -155,7 +163,8 @@ class ProductService {
     /**
      * @return array|int
      */
-    public function getProductImageSettings() {
+    public function getProductImageSettings()
+    {
         return $this->productImageSettings;
     }
 
@@ -164,7 +173,8 @@ class ProductService {
      *
      * @return ProductService
      */
-    public function setProductImageSettings($productImageSettings) {
+    public function setProductImageSettings($productImageSettings)
+    {
         $this->productImageSettings = $productImageSettings;
 
         return $this;
@@ -173,14 +183,16 @@ class ProductService {
     /**
      * @return bool
      */
-    public function isOnlyWithImages() {
+    public function isOnlyWithImages()
+    {
         return $this->onlyWithImages;
     }
 
     /**
      * @return bool
      */
-    public function getOnlyWithImages() {
+    public function getOnlyWithImages()
+    {
         return $this->onlyWithImages;
     }
 
@@ -189,7 +201,8 @@ class ProductService {
      *
      * @return ProductService
      */
-    public function setOnlyWithImages($onlyWithImages) {
+    public function setOnlyWithImages($onlyWithImages)
+    {
         $this->onlyWithImages = $onlyWithImages;
 
         return $this;
@@ -198,7 +211,8 @@ class ProductService {
     /**
      * @return null|string
      */
-    public function getSort() {
+    public function getSort()
+    {
         return $this->sort;
     }
 
@@ -207,7 +221,8 @@ class ProductService {
      *
      * @return ProductService
      */
-    public function setSort($sort) {
+    public function setSort($sort)
+    {
         $this->sort = $sort;
 
         return $this;
@@ -216,7 +231,8 @@ class ProductService {
     /**
      * @return bool
      */
-    public function isSortDescending() {
+    public function isSortDescending()
+    {
         return $this->sortDescending;
     }
 
@@ -225,7 +241,8 @@ class ProductService {
      *
      * @return ProductService
      */
-    public function setSortDescending($sortDescending) {
+    public function setSortDescending($sortDescending)
+    {
         $this->sortDescending = $sortDescending;
 
         return $this;
@@ -234,7 +251,8 @@ class ProductService {
     /**
      * @return array<int>|null
      */
-    public function getExcludedShopIds() {
+    public function getExcludedShopIds()
+    {
         return $this->excludedShopIds;
     }
 
@@ -243,7 +261,8 @@ class ProductService {
      *
      * @return ProductService
      */
-    public function setExcludedShopIds($excludedShopIds) {
+    public function setExcludedShopIds($excludedShopIds)
+    {
         $this->excludedShopIds = $excludedShopIds;
 
         return $this;
@@ -254,8 +273,9 @@ class ProductService {
      *
      * @return ProductService
      */
-    public function addExcludedShopId($excludedShopId) {
-        if($this->excludedShopIds == null){
+    public function addExcludedShopId($excludedShopId)
+    {
+        if ($this->excludedShopIds == null) {
             $this->excludedShopIds = array();
         }
         $this->excludedShopIds[] = $excludedShopId;
@@ -266,7 +286,8 @@ class ProductService {
     /**
      * @param $imageType int The size of the logo to include
      */
-    protected function includeProductImage($imageType) {
+    protected function includeProductImage($imageType)
+    {
 
         switch ($imageType) {
             case ProductImageType::TYPE_ORIGINAL:
@@ -294,10 +315,9 @@ class ProductService {
     }
 
 
-    public function __toString() {
+    public function __toString()
+    {
         return 'ProductService';
     }
 
 }
-
-?>

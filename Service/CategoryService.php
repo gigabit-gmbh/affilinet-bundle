@@ -10,7 +10,8 @@ use Affilinet\ProductData\Responses\CategoriesResponseInterface;
  *
  * @author Thomas Helmrich <thomas@gigabit.de>
  */
-class CategoryService {
+class CategoryService
+{
 
     protected $clientService;
 
@@ -24,18 +25,23 @@ class CategoryService {
      *
      * @param ProductClientService $clientService
      */
-    public function __construct(ProductClientService $clientService) {
+    public function __construct(ProductClientService $clientService)
+    {
         $this->clientService = $clientService;
     }
 
-    protected function initiateRequest() {
+    protected function initiateRequest()
+    {
         $this->shopCategoriesRequest = new CategoriesRequest($this->clientService->getClient());
     }
 
     /**
      * @return CategoriesResponseInterface
+     *
+     * @throws
      */
-    public function getCategories() {
+    public function getCategories()
+    {
         $this->initiateRequest();
 
         $this->shopCategoriesRequest->getAffilinetCategories();
@@ -47,8 +53,11 @@ class CategoryService {
      * @param $shopId int The Shop ID to get the properties for
      *
      * @return CategoriesResponseInterface
+     *
+     * @throws
      */
-    public function getShopCategories($shopId) {
+    public function getShopCategories($shopId)
+    {
 
         $this->initiateRequest();
 
@@ -57,10 +66,9 @@ class CategoryService {
         return $this->shopCategoriesRequest->send();
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return 'CategoryService';
     }
 
 }
-
-?>

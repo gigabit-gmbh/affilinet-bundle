@@ -10,7 +10,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author Thomas Helmrich <thomas@gigabit.de>
  */
-class ProductClientService {
+class ProductClientService
+{
 
     protected $container;
     protected $affilinetClient;
@@ -23,8 +24,11 @@ class ProductClientService {
      * @param ContainerInterface $container
      * @param $publisherId
      * @param $password
+     *
+     * @throws
      */
-    public function __construct(ContainerInterface $container, $publisherId, $password) {
+    public function __construct(ContainerInterface $container, $publisherId, $password)
+    {
         $this->container = $container;
 
         $config = [
@@ -38,14 +42,14 @@ class ProductClientService {
     /**
      * @return AffilinetProductClient
      */
-    public function getClient() {
+    public function getClient()
+    {
         return $this->affilinetClient;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return 'ProductClientService';
     }
 
 }
-
-?>

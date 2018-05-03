@@ -9,7 +9,8 @@ use Affilinet\PublisherData\Requests\ProgramsRequest;
  *
  * @author Thomas Helmrich <thomas@gigabit.de>
  */
-class ProgramService {
+class ProgramService
+{
 
     protected $clientService;
     protected $programsRequest;
@@ -21,24 +22,29 @@ class ProgramService {
      *
      * @param PublisherClientService $clientService
      */
-    public function __construct(PublisherClientService $clientService) {
+    public function __construct(PublisherClientService $clientService)
+    {
         $this->clientService = $clientService;
         $this->programsRequest = new ProgramsRequest($clientService->getClient());
     }
 
-    protected function initiateRequest() {
+    protected function initiateRequest()
+    {
         $this->programsRequest = new ProgramsRequest($this->clientService->getClient());
     }
 
     /**
      * @return \Affilinet\PublisherData\Responses\ProgramsResponse
      */
-    public function getPrograms($page = 1, $pageSize = 100, $partnerShipStatus = array('Active')) {
+    public function getPrograms($page = 1, $pageSize = 100, $partnerShipStatus = array('Active'))
+    {
         $this->initiateRequest();
 
-        $this->programsRequest->setProgramsQuery(array(
-            'PartnershipStatus' => $partnerShipStatus,
-        ));
+        $this->programsRequest->setProgramsQuery(
+            array(
+                'PartnershipStatus' => $partnerShipStatus,
+            )
+        );
 
         $this->programsRequest->setPageSize($pageSize);
         $this->programsRequest->setPage($page);
@@ -49,17 +55,17 @@ class ProgramService {
     /**
      * @return \Affilinet\PublisherData\Responses\ProgramCategoriesResponse
      */
-    public function getProgramCategories() {
+    public function getProgramCategories()
+    {
         $this->initiateRequest();
 
         return $this->programsRequest->getProgramCategories();
     }
 
 
-    public function __toString() {
+    public function __toString()
+    {
         return 'ProgramsService';
     }
 
 }
-
-?>

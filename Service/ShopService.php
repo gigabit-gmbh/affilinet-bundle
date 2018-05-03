@@ -13,7 +13,8 @@ use Affilinet\ProductData\Responses\ShopsResponseInterface;
  *
  * @author Thomas Helmrich <thomas@gigabit.de>
  */
-class ShopService {
+class ShopService
+{
 
     protected $clientService;
 
@@ -28,16 +29,19 @@ class ShopService {
      *
      * @param ProductClientService $clientService
      */
-    public function __construct(ProductClientService $clientService) {
+    public function __construct(ProductClientService $clientService)
+    {
         $this->clientService = $clientService;
         $this->shopsRequest = new ShopsRequest($clientService->getClient());
     }
 
-    protected function initiateRequest(){
+    protected function initiateRequest()
+    {
         $this->shopsRequest = new ShopsRequest($this->clientService->getClient());
     }
 
-    protected function initiateShopPropertiesRequest(){
+    protected function initiateShopPropertiesRequest()
+    {
         $this->shopPropertiesRequest = new ShopPropertiesRequest($this->clientService->getClient());
     }
 
@@ -52,7 +56,8 @@ class ShopService {
      *
      * @throws AffilinetProductWebserviceException
      */
-    public function getShops($page = 1, $pageSize = 20, $keyword = null, $logoSizes = array()) {
+    public function getShops($page = 1, $pageSize = 20, $keyword = null, $logoSizes = array())
+    {
         $this->initiateRequest();
 
         if ($keyword != null && is_string($keyword)) {
@@ -72,7 +77,8 @@ class ShopService {
      *
      * @return ShopPropertiesResponseInterface
      */
-    public function getShopProperties($shopId) {
+    public function getShopProperties($shopId)
+    {
         $this->initiateShopPropertiesRequest();
 
         $this->shopPropertiesRequest->setShopId($shopId);
@@ -87,14 +93,16 @@ class ShopService {
      *
      * @throws AffilinetProductWebserviceException
      */
-    public function getShopsCount($keyword = null) {
+    public function getShopsCount($keyword = null)
+    {
         return $this->getShops($keyword)->totalRecords();
     }
 
     /**
      * @param $logoSize int The size of the logo to include
      */
-    protected function includeShopLogo($logoSize) {
+    protected function includeShopLogo($logoSize)
+    {
 
         switch ($logoSize) {
             case 468:
@@ -115,10 +123,9 @@ class ShopService {
         }
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return 'ShopService';
     }
 
 }
-
-?>

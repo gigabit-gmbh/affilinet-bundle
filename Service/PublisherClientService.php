@@ -23,6 +23,8 @@ class PublisherClientService {
      * @param ContainerInterface $container
      * @param $publisherId
      * @param $password
+     *
+     * @throws
      */
     public function __construct(ContainerInterface $container, $publisherId, $password) {
         $this->container = $container;
@@ -43,9 +45,7 @@ class PublisherClientService {
     }
 
     public function __toString() {
-        return 'ProductClientService';
+        return 'PublisherClientService';
     }
 
 }
-
-?>
