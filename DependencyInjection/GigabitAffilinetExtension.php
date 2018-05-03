@@ -32,5 +32,8 @@ class GigabitAffilinetExtension extends Extension
         $def = $container->getDefinition('affilinet.publisher_client');
         $def->replaceArgument(1, $config['publisher']['id']);
         $def->replaceArgument(2, $config['publisher']['publisher_password']);
+
+        $definition = $container->getDefinition('affilinet.statistics');
+        $definition->replaceArgument(1, $config['partnership_start']);
     }
 }

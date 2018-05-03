@@ -21,3 +21,6 @@ services:
     affilinet.creative:
       class: Gigabit\AffilinetBundle\Service\CreativeService
       arguments: ['@affilinet.publisher_client']
+    affilinet.statistics:
+      class: Gigabit\AffilinetBundle\Service\StatisticsService
+      arguments: ['@affilinet.publisher_client', '%gigabit_affilinet.partnership_start%']

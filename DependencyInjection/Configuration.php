@@ -10,24 +10,27 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/configuration.html}
  */
-class Configuration implements ConfigurationInterface {
+class Configuration implements ConfigurationInterface
+{
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder() {
+    public function getConfigTreeBuilder()
+    {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('gigabit_affilinet');
 
         $rootNode
             ->children()
-                ->arrayNode('publisher')
-                    ->isRequired()
-                    ->children()
-                        ->scalarNode('id')->isRequired()->end()
-                        ->scalarNode('publisher_password')->isRequired()->end()
-                        ->scalarNode('product_password')->isRequired()->end()
-                    ->end()
-                ->end()// bucket
+            ->arrayNode('publisher')
+            ->isRequired()
+            ->children()
+            ->scalarNode('id')->isRequired()->end()
+            ->scalarNode('publisher_password')->isRequired()->end()
+            ->scalarNode('product_password')->isRequired()->end()
+            ->end()
+            ->end()// publisher
+            ->scalarNode('partnership_start')->isRequired()->end()
             ->end();
 
         return $treeBuilder;
